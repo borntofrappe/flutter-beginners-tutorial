@@ -732,3 +732,63 @@ In terms of new widgets:
   SizedBox(height: 8.0),
   SizedBox(width: 8.0),
   ```
+
+## id_card_state
+
+> ! the script relies on a static image in the `assets` folder
+
+Create a dummy app using [id_card](#id_card) as a starting point.
+
+### Stateful widgets
+
+Instead of relying on a stateless widget create a stateful widget to consider data which changes over time.
+
+The goal is to ultimately update the application to reflect the change in state.
+
+Similarly to the stateless widget define a class which extends the built-in `StatefulWidget`.
+
+```dart
+class Home extends StatefulWidget {
+	@override
+    _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+	@override
+    Widget build(BuildContext context) {
+		return Container();
+	}
+}
+```
+
+There are two classes since the idea is to link a state object —` _HomeState` — to a widget — `Home`.
+
+Define the variable at the top of te class extending the state.
+
+```dart
+class _HomeState extends State<Home> {
+  int hearts = 0;
+
+	// @override...
+}
+```
+
+Include the value with the `$` prefix.
+
+```dart
+Text(
+	'$hearts'
+)
+```
+
+Update the state, for instance at the press of a button, in the body of the `setState` function.
+
+```dart
+onPressed: () {
+	setState(() {
+		hearts += 1;
+	});
+}
+```
+
+Through `setState` Flutter knows to re-build the widget tree and update the relevant section.
