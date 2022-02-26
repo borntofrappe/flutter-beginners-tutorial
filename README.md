@@ -10,7 +10,7 @@ A `.dart` script includes one essential function in `main`.
 
 ```dart
 void main() {
-  print('Hello');
+	print('Hello');
 }
 ```
 
@@ -66,7 +66,7 @@ Create functions specifying the return type and the function's name.
 
 ```dart
 String getName() {
-  return 'Eliza';
+  	return 'Eliza';
 }
 ```
 
@@ -74,7 +74,7 @@ Call the function by name.
 
 ```dart
 void main() {
-  print(getName());
+  	print(getName());
 }
 ```
 
@@ -226,3 +226,452 @@ politeUser.greet();
 ```
 
 The extended object is equipped with its properties and methods while retaining the corresponding values rfom the parent class.
+
+## hello_world
+
+### Widgets
+
+Flutter is centered on the notion of widgets.
+
+A trivial example comes in the form of an application with a root widget nesting two widget describing an app bar and a container. The app bar might then nest a text widget, while the container might include an image widget.
+
+Each widget has its own set of properties to customize its appearance and logic. For instance, `textAlign` modifies the alignment of text, `elevation` updates the vertical priority of a button.
+
+Widgets are implemented with classes in the Dart programming language.
+
+### Android Studio
+
+> the section assumes a new project is set up with Android Studio, the Flutter plugin and a new device with Android Pie
+
+Highlight the project structure with the 'Project' tab.
+
+The project houses the `dart` script responsible for the application in the `lib` folder.
+
+Past the import statement the main function returns a widget.
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() {
+    runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+    /* ... */
+}
+```
+
+The class is a widget which structures the application with a with a widget tree.
+
+To get started remove all the code but the logic starting the application.
+
+```dart
+void main() {
+    runApp(
+        /* ... */
+    );
+}
+```
+
+In `runApp` add a `MaterialApp` widget, a wrapper to benefit from the material guidelines.
+
+```dart
+MaterialApp(
+)
+```
+
+In the widget describe properties in a comma separated list.
+
+```dart
+ MaterialApp(
+    home: Text('Hello world'),
+)
+```
+
+With `home` the widget renders an additional widget — `Text` — with an arbitrary string.
+
+### Scaffold and AppBar
+
+With a scaffold widget describe the layout of the application.
+
+```dart
+home: Scaffold(
+    appBar: AppBar(
+        title: Text('HW'),
+    ),
+)
+```
+
+`AppBar` adsd a bar at the top of the screen. The widget accepts a title property to describe a specific string. Notice that the title is included with yet another widget — `Text`.
+
+The tree is built in this fashion nesting properties and values.
+
+```dart
+appBar: AppBar(
+    title: Text('Hello world app'),
+    centerTitle: true,
+),
+```
+
+Beside the bar add text in the application with the `body` property.
+
+```dart
+appBar: AppBar(),
+body: Text('Hello world')
+```
+
+Use the `Center` widget to center the text vertically and horizontally.
+
+```dart
+body: Center(
+    child: Text('Hello world'),
+)
+```
+
+Notice the widget is included through the `child` field.
+
+Use a `FloatingActionButton` widget to add a button — by default in the bottom right corner.
+
+```dart
+body: Center(),
+floatingActionButton: FloatingActionButton(
+    onPressed: () {},
+    child: Text('Click'),
+),
+```
+
+The button requires a `onPressed` field — in this instance an empty anonymous function.
+
+The [flutter API](https://api.flutter.dev/flutter) highlights all properties and supported values.
+
+### Colors and fonts
+
+Change the appearance of the widget with properties such as `backgroundColor`.
+
+```dart
+appBar: AppBar(
+    backgroundColor: Colors.red,
+)
+```
+
+The color is included through the material API, and it is possible to choose from a specific strength.
+
+```diff
+backgroundColor: Colors.red,
++backgroundColor: Colors.red[500],
+```
+
+The property is also available for the button widget.
+
+```dart
+FloatingActionButton(
+    backgroundColor: Colors.red[500],
+)
+```
+
+For the text widget update the appearance with the `style` field and a `TextStyle` widget.
+
+```dart
+child: Text(
+    'Hello world',
+    style: TextStyle(
+        fontSize: 20.0,
+        fontWeight: FontWeight.bold,
+        letterSpacing: 2.0,
+        color: Colors.grey[700]
+    ),
+)
+```
+
+To add a custom font create a new repository and add the `.ttf` file.
+
+Open `pubspec.yaml` and update the configuration.
+
+```yaml
+flutter:
+  fonts:
+    - family: Karla
+      fonts:
+        - asset: fonts/Karla.ttf
+```
+
+---
+
+YAML is based on indentation, with each nested field set two spaces from the parent node.
+
+---
+
+Refer to the font by name in the `TextStyle` widget.
+
+```dart
+style: TextStyle(
+    fontFamily: 'Karla',
+    fontSize: 20.0,
+    fontWeight: FontWeight.bold,
+    letterSpacing: 2.0,
+    color: Colors.grey[700]
+),
+```
+
+### Stateless widget and hot reload
+
+At the bottom of the script create a custom widget.
+
+```dart
+class Home extends StatelessWidget {   @override
+  Widget build(BuildContext context) {
+  return Scaffold();
+  }
+}
+```
+
+In this instance you extend the stateless widget, meaning the state of the widget doesn't change over time.
+
+In the build function return the widget tree described in the `home` field.
+
+```dart
+return Scaffold(
+    appBar: AppBar(
+        title: Text('HW'),
+        // ..
+    ),
+    // ..
+);
+```
+
+In the `main` function rely on the class instead of the widget tree.
+
+```dart
+MaterialApp(
+    home: Home(),
+)
+```
+
+This setup enables hot reloading. Whenever you update the widget tree the change is reflected in the device preview.
+
+### Images and assets
+
+Refer to images with a URL or a relative path.
+
+Over the network use the network image widget.
+
+```dart
+body: Center(
+    child: Image(
+        image: NetworkImage('https://images.pexels.com/photos/1517358/pexels-photo-1517358.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'),
+    ),
+),
+```
+
+From a local file use the asset image widget.
+
+```dart
+body: Center(
+    child: Image(
+        image: AssetImage('assets/image.png'),
+    ),
+),
+```
+
+Similarly to font files add the folder and the file in the `.yaml` config file.
+
+```yaml
+flutter:
+  assets:
+    - assets/image.png
+```
+
+Point to the folder to consider all available images.
+
+```yaml
+flutter:
+  assets:
+    - assets/
+```
+
+The material API offers two alternatives to include images with `Image.network` and `Image.asset`.
+
+```dart
+child: Image.network('https://images.pexels.com/photos/1517358/pexels-photo-1517358.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'),
+
+child: Image.asset('assets/rose.jpeg'),
+```
+
+### Buttons and icons
+
+Add icons with an icon widget, picking from one of the icons in the material library.
+
+```dart
+child: Icon(
+    Icons.add_location,
+    color: Colors.blue,
+    size: 50.0,
+),
+```
+
+Add button with a button widget. The material API offers different styles, for instance a filled button with a shadow in `ElevatedButton`.
+
+```dart
+ElevatedButton(
+    onPressed: () {},
+    child: Text('Click me'),
+),
+```
+
+A button without solid background with `TextButton`.
+
+```dart
+TextButton(
+    onPressed: () {},
+    child: Text('Click me'),
+),
+```
+
+With onPressed the widget reacts to a click.
+
+```dart
+onPressed: () {
+    print('Button clicked')
+},
+```
+
+In this instance the message is logged in the `Run` console.
+
+To add an icon append the `.icon` keyword to the widget. Refer to the specific icon in the `icon` field and an icon widget.
+
+```dart
+TextButton.icon(
+    onPressed: () {
+        print('Button clicked');
+    },
+    icon: Icon(Icons.email),
+    label: Text('Click me'),
+),
+```
+
+For a button with only an ico use the icon button widget.
+
+```dart
+IconButton(
+    onPressed: () {},
+    icon: Icon(Icons.email),
+),
+```
+
+### Layout
+
+#### Container
+
+Use the container widget to wrap around other widgets and add properties like padding and margin. Nest a single widget with the `child` property.
+
+```dart
+Container(
+    child: Text(
+        'Hello world',
+        style: TextStyle(
+            fontSize: 32.0,
+        ),
+    ),
+),
+```
+
+The `color` property affects the background of the container.
+
+```dart
+Container(
+    color: Colors.grey[300],
+)
+```
+
+Without a child widget the container expands to cover the available space.
+
+With a child the container limits itself to the width and height necessary for the widget.
+
+For spacing the padding and margin properties rely on an inset object.
+
+```dart
+padding: EdgeInsets.all(20.0),
+```
+
+`EdgeInsets` allows to change the spacing on all sides, but also the top/bottom, left/right sections or again the four sides individually — left, top, right, bottom.
+
+```dart
+padding: EdgeInsets.symmetric(vertical: 20.0),
+padding: EdgeInsets.fromLTRB(10.0, 10.0, 5.0, 5.0),
+```
+
+The same inset is available for the `margin` property, adding whitespace _around_ the widget.
+
+To add padding to a single object an alternative is to wrap the widget in a padding widget.
+
+```dart
+Padding(
+    padding: EdgeInsets.all(10.0),
+    child: Text('Hello'),
+)
+```
+
+#### Rows
+
+Use the rows widget to display multiple widgets in the same row. In this instance add the widget in a `children` property.
+
+```dart
+Row(
+    children: <Widget>[
+        Text(),
+        FlatBUtton(),
+        Padding(
+            child: Text(),
+        ),
+    ],
+),
+```
+
+Align the widgets horizontally and vertically with the `mainAxisAlignment` and `crossAxisAlignment` properties.
+
+```dart
+mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+crossAxisAlignment: CrossAxisAlignment.end,
+children: // ...,
+```
+
+### Columns
+
+Use the column widget to display multiple widget in the same column.
+
+```dart
+Column(
+    children: <Widget>[],
+),
+```
+
+The main and cross axis are opposite to the row.
+
+#### Expanded
+
+Use the expanded widget to have a widget expand to the available space.
+
+```dart
+Expanded(
+    child: ElevatedButton(
+        onPressed: () {},
+        child: Text('Click me')
+    ),
+),
+```
+
+With multiple expanded widget specify the portion of the available space with the `flex` property.
+
+```dart
+Expanded(
+    flex: 1,
+    child: Text('Hello world')
+),
+Expanded(
+    flex: 2,
+    child: ElevatedButton(
+        onPressed: () {},
+        child: Text('Click me')
+    )
+),
+```
