@@ -229,6 +229,8 @@ The extended object is equipped with its properties and methods while retaining 
 
 ## hello_world
 
+> ! the script relies on a font file in the `fonts` folder and a static image in the `assets` folder
+
 ### Widgets
 
 Flutter is centered on the notion of widgets.
@@ -675,3 +677,58 @@ Expanded(
     )
 ),
 ```
+
+## id_card
+
+> ! the script relies on a static image in the `assets` folder
+
+Create a dummy app to display static values in an arbitrary widget tree.
+
+Past the `AppBar` widget the `body` property includes the following widget tree.
+
+```toml
+Padding
+	Column
+		Center
+			CircleAvatar
+		Divider
+		Text
+		SizedBox
+		Text
+		SizedBox
+		Text
+		SizedBox
+		Text
+		SizedBox
+		Row
+			Icon
+			SizedBox
+			Text
+```
+
+In terms of new widgets:
+
+- use `CircleAvatar` to add a circle and the `background` property to include an image — here with an asset widget
+
+  ```dart
+  CircleAvatar(
+  	backgroundImage: AssetImage('assets/bingdwendwen.jpg'),
+  	radius: 56.0,
+  ),
+  ```
+
+- use `Divider` to separate the content — here with an arbitrary vertical gap
+
+  ```dart
+  Divider(
+  	height: 56.0,
+  	color: Colors.grey[500],
+  ),
+  ```
+
+- use `SizedBox` to add whitespace between widgets — in the column size the box in its height, in the row size the box in terms of width
+
+  ```dart
+  SizedBox(height: 8.0),
+  SizedBox(width: 8.0),
+  ```
