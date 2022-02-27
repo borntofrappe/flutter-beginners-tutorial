@@ -792,3 +792,334 @@ onPressed: () {
 ```
 
 Through `setState` Flutter knows to re-build the widget tree and update the relevant section.
+
+## dynamic_quotes
+
+## List of data
+
+As a setup create a stateful widget.
+
+```dart
+class QuoteList extends StatefulWidget {
+    @override
+    _QuoteListState createState() => _QuoteListState();
+}
+
+class _QuoteListState extends State<QuoteList> {
+    @override
+    Widget build(BuildContext context) {
+        return Scaffold();
+    }
+}
+```
+
+Use the widget in the `home` property of the `MaterialApp` instance.
+
+```dart
+void main() => runApp(
+    MaterialApp(
+        home: QuoteList()
+    ),
+);
+```
+
+In terms of widget tree use a scaffold widget with an arbitrary background color, application bar and body.
+
+```dart
+Scaffold(
+    backgroundColor: Colors.grey[100],
+    appBar: AppBar(
+        title: Text('Quote List'),
+        centerTitle: true,
+        backgroundColor: Colors.red[100],
+    ),
+    body: Column(
+        margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+        children: []
+    ),
+);
+```
+
+In the column widget the idea is to include one widget for each quote from in a list.
+
+Create a list of strings at the top of the widget.
+
+```dart
+List<String> quotes = [
+    'I don\'t wanna stop at all',
+    'You can\'t start a fire without a spark',
+    'Stop when the red lights flash',
+];
+```
+
+To render each and every string loop through the list with the `map` function.
+
+```dart
+children: quotes.map((quote) {
+
+}),
+```
+
+In the body return a text widget with the value of the quote
+
+```dart
+children: quotes.map((quote) {
+    return Text(quote);
+}),
+```
+
+Since `children` expects a `<List>`, and not an iterable of `<Text>` nodes, chain the `toList()` method.
+
+```dart
+children: quotes.map((quote) {
+    return Text(quote);
+}).toList(),
+```
+
+---
+
+The function can be made into an arrow function as a matter of preference.
+
+```dart
+quotes.map((quote) => Text(quote)).toList()
+```
+
+---
+
+## Custom classes
+
+Instead of adding a quote as-is create a separate dart script to encapsulate the widget and its logic — `quote.dart`.
+
+```dart
+class Quote {
+    String text;
+    String author;
+
+    Quote(this.text, this.author);
+}
+```
+
+In the main script import the class.
+
+```dart
+import 'quote.dart';
+```
+
+With this starting point you'd instantiate a new quote passing the text and author in order.
+
+```dart
+Quote quote = Quote('Third time is the charm', 'me')
+```
+
+As a matter of preference, however, the course introduces _named parameters_.
+
+Update the constructor.
+
+```diff
+Quote(this.text, this.author);
++Quote({ this.text, this.author });
+```
+
+---
+
+Android studio asks to initialize the variables to a non-null value or add the `required` keyword.
+
+```diff
+Quote({ this.text, this.author });
++Quote({ this.text = '', this.author = '' });
++Quote({ required this.text, required this.author });
+```
+
+---
+
+Pass the text and author specifying the value after the corresponding keyword. In this instance the order of the arguments doesn't matter.
+
+```dart
+Quote quote = Quote(text: 'Third time is the charm', author: 'me')
+```
+
+Update `quotes` to define a list of quote objects instead of stings.
+
+```dart
+List<Quote> quotes = [
+    Quote(),
+    Quote(),
+]
+```
+
+Loop through the quotes and add the relevant data in quotes, wrapping the property after the dollar sign in curly braces.
+
+```dart
+Text('${quote.text} - ${quote.author}')
+```
+
+## Cards
+
+Instead of adding the quotes in a text widget the idea is to create a more complex widget, a card with displaying the information in a column.
+
+Create a separate function to return the widget tree.
+
+```dart
+Widget quoteTemplate(Quote quote) {
+  return Card(
+    margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+    child: Column(
+      children: <Widget>[
+        Text(
+          quote.text,
+          style: TextStyle(
+            fontSize: 14.0,
+            color: Colors.grey[600],
+          ),
+        ),
+        SizedBox(height: 6.0),
+        Text(
+          quote.author,
+          style: TextStyle(
+            fontSize: 18.0,
+            color: Colors.grey[700],
+          ),
+        ),
+      ]
+    ),
+  );
+}
+```
+
+Use the function instead of the text node.
+
+```diff
+-Text('${quote.text} - ${quote.author}')
++quoteTempalte(quote))
+```
+
+---
+
+Ultimately the widget tree is updated to:
+
+- add padding for each card
+
+- have the content of each card stretch to cover the available width
+
+---
+
+## Extracting widgets
+
+Instead of relying on a function the idea is to extract the widgets in a stateless widget. This is to ultimately provide the relevant structure creating an instance of the class.
+
+```diff
+-return Card()
++return new QuoteCard(quote: quote);
+```
+
+Initialize the class as an extension of a stateless widget which returns the previous card widget.
+
+```dart
+class QuoteCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+      return Card(
+          // ...
+      )
+  }
+}
+```
+
+In the return statement the class relies on a quote, so that it is necessary to specify its value in the constructor.
+
+```dart
+class QuoteCard extends StatelessWidget {
+    Quote quote;
+
+    QuoteCard { required this.quote };
+);
+```
+
+As a stateless widget, however you need to describe the input value with the `final` keyword. This is data which doesn't change.
+
+```diff
+Quote quote;
++final Quote quote;
+```
+
+With this setup create an instance of the class in the body of the templating function
+
+```dart
+Widget quoteTemplate(Quote quote) {
+  return new QuoteCard(quote: quote);
+}
+```
+
+Ultimately it possible to directly return the instance in the mapping function.
+
+```diff
+-quoteTempalte(quote))
++new QuoteCard(quote: quote)
+```
+
+The `new` keyword is also optional.
+
+```diff
+-new QuoteCard(quote: quote)
++QuoteCard(quote: quote)
+```
+
+---
+
+To improve the structure of the code extract the class in its own file and import the widget at the top of the script.
+
+```dart
+import QuoteCard from 'quote_card.dart';
+```
+
+In the separate file you need to import the material library as well as the quote class.
+
+```dart
+import 'package:flutter/material.dart';
+import 'quote.dart';
+```
+
+---
+
+## Functions as parameters
+
+Add a button widget to each instance of the quote card — in this instance an icon button.
+
+```dart
+IconButton(
+    onPressed: () { },
+    icon: Icon(Icons.delete_outline)
+),
+```
+
+`QuoteCard` is a stateless component, so that it is not able to update the state of the application. With this in mind the idea is to update the state from `QuoteList` by way of a function and then pass the function an argument.
+
+Define a `delete` function alongside the `quote` field. Through `setState` use the function to remove the associated quote.
+
+```dart
+QuoteCard(
+    quote: quote,
+    delete: () {
+        setState(() {
+            quotes.remove(quote);
+        });
+    }
+)
+```
+
+Update the card class to receive the function together with the quote.
+
+```dart
+final Function delete;
+
+QuoteCard({ required this.quote, required this.delete });
+```
+
+In the button widget call the function.
+
+```dart
+IconButton(
+    onPressed: () { delete(); },
+    icon: Icon(Icons.delete_outline)
+),
+```
