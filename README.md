@@ -1123,3 +1123,885 @@ IconButton(
     icon: Icon(Icons.delete_outline)
 ),
 ```
+
+## world_time
+
+### Pages and packages
+
+The application is set to have three pages, each encapsulated in its own `.dart` file.
+
+```text
+main.dart
+pages
+    loading.dart
+    home.dart
+    location.dart
+```
+
+Initialize the pages with stateful widgets. For instance and `home.dart` create the classes following the example of [dynamic quotes](#dynamicquotes).
+
+```dart
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[100],
+      body: Text('Home'),
+    );
+  }
+}
+```
+
+In the script `main.dart` import the pages.
+
+```dart
+import 'pages/home.dart';
+```
+
+Use the relative path _or_ the name of the project itself with the `package:` prefix. This is similar to how the main script imports the material library.
+
+```dart
+import 'package:world_time/pages/home.dart';
+```
+
+Use a specific page in the `home` property of the `MaterialApp` widget.
+
+```dart
+void main() {
+  runApp(MaterialApp(
+    home: Home()
+  ));
+}
+```
+
+---
+
+With `home.dart` the course does not include an application bar, so that the text is initially pushed at the top, potentially behind the status bar. Use the `SafeArea` widget to avoid this issue.
+
+```dart
+body: SafeArea(
+    child: Text('Home'),
+)
+```
+
+---
+
+### Maps and routing
+
+In the dart language a map describes a data structure with key value pairs.
+
+```dart
+Map student = {
+    'name': 'Timothy',
+    'age': 28,
+};
+```
+
+Extract specific values with bracket notation.
+
+```dart
+print(student['name']); // Timothy
+print(student['age']); // 28
+```
+
+The data structure is relevant for the pages in the application since routing is based on a map in the `routes` field.
+
+```dart
+MaterialApp(
+    routes: {}
+)
+```
+
+In this map the key describes the path to the route. The value is a function which receives `context` as an argument.
+
+```dart
+routes: {
+    '/': (context) {}
+}
+```
+
+In the function return a specific widget
+
+```dart
+routes: {
+    '/': (context) => Loading(),
+    '/home': (context) => Home(),
+    '/location': (context) => Location(),
+}
+```
+
+
+The `home` field creates a conflict with `routes`. Remove the first property to rely on the routes instead.
+
+```diff
+-home: Home(),
+routes: {
+```
+
+By default flutter loads the widget described in `/`. Provide an alternative in the `initialRoute` field.
+
+```dart
+initialRoute: '/home',
+routes: {}
+```
+
+To navigate between routes use the `Navigator` object. 
+
+Add a button in the home widget.
+
+
+
+At the press of a button, for instance, move to the location screen with the `pushNamed` method.
+
+```dart
+onPressed: () {
+    Navigator.pushNamed(context, '/location');
+}
+```
+
+With `pushNamed` you push the widget on top of the existing one. In the moment you add an app bar in the new page flutter adds a back button to navigate back to the previous widget.
+
+```dart
+Scaffold(
+    backgroundColor: Colors.grey[100],
+    appBar: AppBar(
+        title: Text('Change location'),
+        centerTitle: true,
+    ),
+    body: Text('Location'),
+)
+```
+
+
+### Widget lifecycle
+
+Stateful widgets register events for specific moments in their lifecycle.
+
+One of these events is already considered with the `build` function.
+
+```dart
+class _HomeState extends State<Home> {
+    @override
+    Widget build(BuildContext context) {
+        return SafeArea();
+    }
+}
+```
+
+The "build" event is registered every time the widget is built — when initialized and every time the script calls the `setState` function.
+
+The "initState" event is registered once when the widget is first initialized. You tap into this event with the `initState` function.
+
+```dart
+@override
+void initState() {
+    super.initState();
+
+    print('Init');
+}
+```
+
+Call the function on `super` to trigger the original function.
+
+The "dispose" event is registered once when the widget is finally destroyed.
+
+```dart
+@override
+void dispose() {
+    super.dispose();
+
+    print('Dispose');
+}
+```
+
+### Asynchorous code
+
+To implement asynchronous code — logic which takes time and resolves at a point in time without blocking the application — dart provides the `async` and `await` keywords alongside the concept of _futures_.
+
+To simulate the feature define a function `getData`.
+
+```dart
+void getData() {
+
+}
+```
+
+Call the function in the `build` method of the home widget, or again the `initState` method of the location screen.
+
+```dart
+@override
+Widget build(BuildContext context) {
+    getData();
+}
+```
+
+In `getData` use `Future.delayed` to wait for a specific amount of time.
+
+```dart
+Future.delayed(Duration(seconds: 3), () {
+    print('Hello delayed');
+});
+```
+
+The `Duration` global allows to specify a duration with a specific time.
+
+In the snippet the print statement is run after 3 seconds. In those seconds, however, the application continues.
+
+```dart
+Future.delayed(Duration(seconds: 3), () {
+    print('Hello delayed');
+});
+print('Hello now');
+```
+
+In the moment you call the function you'd see the string "Hello now" immediately, "Hello delayed" after the specified lapse.
+
+If you want to wait for the execution of a future make the function into an async function.
+
+```dart
+void getData() async {
+
+}
+```
+
+Use the `await` keyword to wait for the completion of the future.
+
+```dart
+await Future.delayed(Duration(seconds: 3), () {
+    print('Hello delayed')
+});
+print('Hello now?');
+```
+
+In the snippet the order of the print statement would be the opposite of the previous example.
+
+Store a specific value from the future by returning something in the body of the curly braces.
+
+```dart
+String username = await Future.delayed(Duration(seconds: 3), () {
+    return 'Timothy';
+});
+print(username);
+```
+
+### Flutter packages
+
+[pub.dev](https://pub.dev/) is the relevant package repository for dart and flutter applications. Here you find modules and functionalities developed by other developers to achieve specific features.
+
+For the world time app one of the useful packages is `http`. The module handles network requests to specific endpoints.
+
+Install the package adding a version to `pubspec.yaml` and the `dependencies` field.
+
+```dart
+dependencies:
+  http: ^0.13.4
+```
+
+Import the module in the benefiting files.
+
+```dart
+import 'package:http/http.dart';
+```
+
+### Get sample data
+
+Update the application to launch the loading widget.
+
+```diff
+-initialRoute: '/home',
+routes: {}
+```
+
+Move the logic of `getData` from the home widget to the loading one, removing the existing futures and print statements.
+
+In `getData` make a network request to the [JSON placeholder API](https://jsonplaceholder.typicode.com/).
+
+```dart
+void getData() async {
+    Response response = await get(Uri.parse('https://jsonplaceholder.typicode.com/todos/1'));
+}
+```
+
+The `response` type and `get` functions are available from the `http` module. `response` itself provides a string in the `body` field.
+
+```dart
+Response response = await get();
+print(response.body)
+/*
+{
+    "userId"	1
+    "id"	1
+    "title"	"delectus aut autem"
+    "completed"	false
+}
+*/
+```
+
+Call the function in the `initState` method to highlight the result in the console.
+
+```dart
+void initState() {
+    super.initState();
+
+    getData();
+}
+```
+
+Use a converting function from the `dart:convert` library to turn the string into a map.
+
+```dart
+import 'dart:convert';
+
+// in getData
+Map data = jsonDecode(response.body);
+print(data['title']); // delectus aut autem
+```
+
+### Get world time
+
+The [world time API](http://worldtimeapi.org) allows to retrieve the time for specific locations.
+
+```text
+http://worldtimeapi.org/api/timezone/Europe/Rome
+http://worldtimeapi.org/api/timezone/Europe/Paris
+```
+
+A sample request returns a JSON object with several values.
+
+```json
+{
+  "abbreviation": "CET",
+  "client_ip": "80.180.189.16",
+  "datetime": "2022-02-27T17:05:08.426202+01:00",
+  "day_of_week": 0,
+  "day_of_year": 58,
+  "dst": false,
+  "dst_from": null,
+  "dst_offset": 0,
+  "dst_until": null,
+  "raw_offset": 3600,
+  "timezone": "Europe/Paris",
+  "unixtime": 1645977908,
+  "utc_datetime": "2022-02-27T16:05:08.426202+00:00",
+  "utc_offset": "+01:00",
+  "week_number": 8
+}
+```
+
+In the application the idea is to use `utc_datetime` alongside `utc_offset` to find the time at the specific location.
+
+Rename the test `getData` function to `getTime`
+
+```diff
+-void getData() async {
++void getTime() async {
+```
+
+```diff
+-getData()
++getTime();
+```
+
+In the body of the asynchronous function make a request with an arbitrary location.
+
+```dart
+Response response = await get();
+Map data = jsonDecode(response.body);
+```
+
+From `data` retrieve the desired values for the time and offset.
+
+```dart
+String datetime = data['utc_datetime'];
+String offset = data['utc_offset'];
+```
+
+The values are strings. Use the `Datetime` object and the `parse` method to turn the string for the datetime into a date object.
+
+```dart
+DateTime now = DateTime.parse(datetime);
+```
+
+The instance provides several helper methods to compute dates and extract useful data such as hour, minutes.
+
+```dart
+print(now); // 2022-02-28 16:28:01.504304Z
+print(now.hour); // 16
+```
+
+To add an offset use the `add` method specifying a duration object.
+
+```dart
+now.add(Duration(hours: 1));
+```
+
+To include the value from the `offset` variable — a string — into the duration object — an integer — extract the number of hours and parse the value as an integer.
+
+```dart
+String offset = data['utc_offset']; // '+01:00'
+String hours = offset.substring(1,3); // 01
+
+now = now.add(Duration(hours: int.parse(hours)));
+```
+
+Note that `add` returns a new date object, and does not modify the original instance.
+
+```dart
+print(now)
+```
+
+## WorldTime custom class
+
+Create a dedicated class to perform the network request and set a specific time.
+
+```text
+main.dart
+pages
+    loading.dart
+    home.dart
+    location.dart
+services
+    world_time.dart
+```
+
+In the script import the `http` module and the converting utility before initializing the class.
+
+```dart
+import 'package:http/http.dart';
+import 'dart:convert';
+```
+
+Initialize the class with three values: `location` for the name displayed in the UI, `flag` for the png asset describing a flag in the upcoming assets folder, and `url` for the endpoint in the world time API.
+
+```dart
+class WorldTime {
+    String location;
+    String flag;
+    String url = '';
+
+    WorldTime({required this.location, required this.flag, required this.url });
+}
+```
+
+An example instance would create an object as follows.
+
+```dart
+WorldTime instance = WorldTime(location: 'Paris', flag: 'france.png', url: 'Europe/Paris');
+```
+
+Create a `getTime` method to perform the network request and store the time in a fourth variable.
+
+```dart
+String time = '';
+
+void getTime() async {}
+```
+
+Repeat the `getTime` function using the input `url` in the HTTP request.
+
+```dart
+void getTime() async {
+    Response response  = await get ('/$url')
+
+    // ...
+}
+```
+
+Finally store the value in `time`.
+
+```dart
+time = now.toString();
+```
+
+With this setup:
+
+- create an instance
+
+  ```dart
+  WorldTime instance = WorldTime(location: 'Paris', flag: 'france.svg', url: 'Europe/Paris')
+  ```
+
+- compute the time
+
+  ```dart
+  await instance.getTime()
+  ```
+
+  `await` allows to wait for the completion of the async function. You need to execute the instruction in an asynchronous function.
+
+In the loading screen include the instruction in a dedicated function of the stateful widget.
+
+```dart
+void setupWordTime() async {
+    // WorldTime ...
+}
+```
+
+Call the function in the `initState` method so that the application retrieves the time as the widget is created.
+
+```dart
+initState() {
+    super.initState()
+
+    setupWorldTime();
+}
+```
+
+With this setup the console highlights an error connected to the instruction calling `getTime`.
+
+```dart
+await worldTime.getTime();
+// Error: This expression has type 'void' and can't be used
+```
+
+Update the definition of the function to decribe the future included in its body.
+
+```diff
+void getTime() async {}
++Future<void> getTime() async {}
+```
+
+To test the feature create a string to display in a text widget.
+
+```dart
+String time = 'loading';
+
+// in the build function
+body: Center(
+    child: Text(time)
+)
+```
+
+Make a call to the `setState` function once the time is available.
+
+```dart
+await instance.getTime();
+setState(() {
+    time = instance.time;
+})
+```
+
+### Handling errors
+
+Asynchronous code is resolved at a point in time. Or, raises an error in the moment the task fails. One wait to handle the occurrence is to show a default string when the `async` function fails.
+
+```dart
+try {
+    await instance.getTime();
+    setState(() {
+        time = instance.time;
+    })
+}
+catch(error) {
+    print('Caught error $error');
+    time = 'Could not get time data';
+}
+```
+
+To test the error try to execute the request to a wrong URL.
+
+```dart
+Response response = await get(Uri.parse('http://worldtimeaprg/api/timezone/Europe/$url'));
+
+// Failed host lookup: 'worldtimeaprg' (OS Error: No address associated with hostname, errno = 7)
+```
+
+## Pass route data
+
+Instead of displaying the time in the loading screen the idea is to pass the data to the home screen.
+
+Remove the time reference and the set state and push the home screen.
+
+```dart
+Navigator.pushNamed(context, '/home')
+```
+
+`pushNamed` adds the home screen _on top_ of the loading screen, but it is no longer necessary to maintain the previous widget. Use `pushReplacementNamed` instead.
+
+```dart
+Navigator.pushReplacementNamed(context, '/home')
+```
+
+Pass data through a keyword argument describing a map.
+
+```dart
+Navigator.pushReplacementNamed(context, '/home', arguments: {
+    'time': instance.time
+})
+```
+
+For the application pass the time alongside the location and flag.
+
+```dart
+{
+    'location': instance.location,
+    'flag': instance.flag,
+    'time': instance.time,
+}
+```
+
+In the home widget the information is made available in the `build` function and with a specific sequence.
+
+```dart
+Widget build(BuildContext context) {
+    print(ModalRoute.of(context)?.settings.arguments);
+}
+```
+
+Initialize a map to store the data and update the variable with the `arguments` field.
+
+```dart
+Map data = {};
+
+Widget build(BuildContext context) {
+    data = ModalRoute.of(context).settings.arguments as Map;
+}
+```
+
+In the widget tree add the values through several text widgets.
+
+### Formatting and showing dates
+
+Instead of storing the DateTime object as a string  the idea is to format the instance with the [`intl`](https://pub.dev/packages/intl) package.
+
+Similarly to the `http` module add the dependency to `pubspec.yaml`.
+
+```yaml
+dependencies:
+  intl: ^0.17.0
+```
+
+Import the value in the script creating the `WorldTime` class.
+
+```dart
+import 'package:intl/intl.dart';
+```
+
+Save the time not as a string but thruogh a specific sequence to retrieve the hour and minutes
+
+```dart
+time = DateFormat.jm().format(now); // 1:20pm
+```
+
+### Redesign widgets
+
+Update the home widget to present the information in a column. In this column show the button to change the location, the location itself and the time.
+
+The style of the text, in size and or color, is a matter of preference.
+
+### Loading spinner
+
+For the loading widget the idea is to highlight the loading process with a spinner instead of a hard-coded string.
+
+Install [flutter_spinkit](https://pub.dev/packages/flutter_spinkit) in `pubspec.yaml`.
+
+```yaml
+dependencies:
+  flutter_spinkit: ^5.1.0
+```
+
+Require the module.
+
+```dart
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+```
+
+Replace the existing tree with a `Center` widget and nest as a child one of the widgets from the module:
+
+```dart
+Center(
+    child: SpinKitChasingDots(
+        color: Colors.grey[100],
+        size: 48.0,
+    )
+)
+```
+
+Customize the spinner in terms of size and color.
+
+---
+
+Include the spinner as a child of a `Scaffold` widget to change the default background.
+
+```dart
+Scaffold(
+    backgroundColor: Colors.indigo,
+    child: SpinKitChasingDots()
+)
+```
+
+---
+
+### Conditional image
+
+In the home widget the idea is to show an image from the assets folder. One of two images depending on the time of day.
+
+Update the yaml config file to consider the `assets` folder.
+
+```yaml
+assets
+- assets/
+```
+
+Update the world time class with a boolean describing the state.
+
+```dart
+bool isDayTime;
+```
+
+Evaluate the condition on the basis of `now`.
+
+```dart
+isDayTime = (now.hour > 6) & (now.hour < 20);
+```
+
+Pass the information in the home widget with the other arguments.
+
+```dart
+{
+    'isDaytime': instance.isDayTime
+}
+```
+
+In the home widget use the boolean to describe the path to the image.
+
+```dart
+String bgImage = data['isDaytime'] ? 'day.png' : 'night.png'
+```
+
+In the widget tree add a `decoration` field of a `Container` widget. Use the `BoxDecoration` widget to have the asset image fitted to cover the entirety of the page.
+
+```dart
+child Container(
+    decoration: BoxDecoration(
+        image: DecorationImage(
+            image: AssetImage('asset/$bgImage'),
+            fit: BoxFit.cover // full background image
+        )
+    )
+)
+```
+
+### Locations
+
+In the third and final widget, `location.dart`, the idea is to show a list of locations and allow to change the time displayed in the homepage.
+
+Define a list of world time instances for a few options.
+
+```dart
+List<WorldTime> worldTimes = [
+    WorldTime(location: 'Paris', flag: 'france.png', url: 'Europe/Paris'),
+    WorldTime(location: 'London', flag: 'uk.png', url: 'Europe/London'),
+    WorldTime(location: 'Berlin', flag: 'germany.png', url: 'Europe/Berlin'),
+    WorldTime(location: 'Moscow', flag: 'russia.png', url: 'Europe/Moscow'),
+];
+```
+
+Instead of looping through the list with the `map` function, like in the previous demo devoted to [dynamic quotes](#dynamicquotes), use a `ListView.builder` widget from the material library.
+
+```dart
+body: ListView.builder(
+)
+```
+
+In the widget specify the number of items as well as a callback function receiving the context and the index of each item.
+
+```dart
+ListView.builder(
+    itemCount: worldTime.length,
+    itemBuilder: (context, index) {}
+)
+```
+
+In the body of the function return a widget tree accessing the data from the individual instances of the world time class.
+
+```dart
+itemBuilder: (context, index) {
+    // access locations[index]
+    return Card(
+        return child: ListTile()
+    )
+}
+```
+
+Use the `ListTile` widget to show the location after an image for the flag.
+
+```dart
+title: Text(worldTime[index].location),
+leading: CircleAvatar(
+    backgroundImage: AssetImage('assets/${worldTime[index].flag}')
+)
+```
+
+### Update location
+
+From the location widget the idea is to use `getTime` to update the data displayed in the home widget.
+
+In the `ListTile` widget add an `onTap` field similar to `onPressed`.
+
+```dart
+onTap: () {
+    updateTime(index);
+}
+```
+
+Define `updateTime` to consider te world time instance and set its time.
+
+```dart
+void updateTime(index) async {
+    WorldTime worldTime = worldTimes[index];
+    await worldTime.getTime();
+}
+```
+
+Finally pop the screen to move back to the home widget.
+
+```dart
+Navigator.pop(context)
+```
+
+To pass the data back to the home screen add a map as a second argument.
+
+```dart
+Navigator.pop(context, {
+    location: instance['location'],
+    // ...
+})
+```
+
+The issue in the receiving script is that as you pop the widget the home is not rebuilt. The arguments are not included as when the application moves from the loading to the home screen.
+
+You can receive the value considering the location widget as a large future. When you push the widget on top of the home store the result of `Navigator.pushNamed`.
+
+```diff
+Navigator.pushNamed('/location');
++dynamic result = await Navigator.pushNamed('/location');
+```
+
+As you retrieve this result update the data with `setState`.
+
+```dart
+setState(() {
+    data = {
+        'time': result['time'],
+        // ..
+    };
+});
+```
+
+The `build` function is triggered and the widget tree is re-built. Since the build function uses the value from the arguments field. hover, the value is not kept.
+
+```dart
+data = ModalRoute.of(context).settings.arguments;
+```
+
+One way to solve this issue is to use the arguments only if `data` is not already initialized.
+
+```dart
+data = data.isNotEmpty ? data : ModalRoute.of(context).settings.arguments
+```
