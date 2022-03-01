@@ -27,14 +27,9 @@ class _QuoteListState extends State<QuoteList> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: Text(
-          'Quote list',
-          style: TextStyle(
-            color: Colors.grey[900],
-          ),
-        ),
+        title: Text('Quotes list'),
         centerTitle: true,
-        backgroundColor: Colors.yellow[500],
+        backgroundColor: Colors.red[900],
       ),
       body: Column(
         children: quotes.map((quote) => QuoteCard(

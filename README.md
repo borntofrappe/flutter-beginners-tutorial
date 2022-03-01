@@ -787,9 +787,9 @@ onPressed: () {
 
 Through `setState` Flutter knows to rebuild the widget tree and update the relevant section.
 
-## dynamic_quotes
+## quotes_list
 
-## List of data
+### List of data
 
 As a setup create a stateful widget.
 
@@ -823,18 +823,17 @@ In terms of widget tree use a scaffold widget with an arbitrary background color
 Scaffold(
     backgroundColor: Colors.grey[100],
     appBar: AppBar(
-        title: Text('Quote List'),
+        title: Text('Quotes List'),
         centerTitle: true,
-        backgroundColor: Colors.red[100],
+        backgroundColor: Colors.red[900],
     ),
     body: Column(
-        margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
         children: []
     ),
 );
 ```
 
-In the column widget the idea is to include one widget for each quote from in a list.
+In the column the idea is to include one widget for each quote from in a list.
 
 Create a list of strings at the top of the widget.
 
@@ -880,7 +879,7 @@ quotes.map((quote) => Text(quote)).toList()
 
 ---
 
-## Custom classes
+### Custom classes
 
 Instead of adding a quote as-is, create a separate dart script to encapsulate the widget and its logic — `quote.dart`.
 
@@ -916,7 +915,7 @@ Quote(this.text, this.author);
 
 ---
 
-Android studio asks to initialize the variables to a non-null value or add the `required` keyword.
+Dart asks to initialize the variables to a non-null value or add the `required` keyword.
 
 ```diff
 Quote({ this.text, this.author });
@@ -947,7 +946,7 @@ Loop through the quotes and add the relevant data in quotes, wrapping the proper
 Text('${quote.text} - ${quote.author}')
 ```
 
-## Cards
+### Cards
 
 Instead of adding the quotes in a text widget the idea is to create a more complex widget, a card displaying the information in a column.
 
@@ -956,7 +955,7 @@ Create a separate function to return the widget tree.
 ```dart
 Widget quoteTemplate(Quote quote) {
   return Card(
-    margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+    margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 24.0),
     child: Column(
       children: <Widget>[
         Text(
@@ -997,7 +996,7 @@ Ultimately the widget tree is updated to:
 
 ---
 
-## Extracting widgets
+### Extracting widgets
 
 Instead of relying on a function the idea is to extract the widgets in a stateless widget. This is to ultimately provide the relevant structure creating an instance of the class.
 
@@ -1025,7 +1024,7 @@ In the return statement the class relies on a quote, so that it is necessary to 
 class QuoteCard extends StatelessWidget {
     Quote quote;
 
-    QuoteCard { required this.quote };
+    QuoteCard({required this.quote});
 );
 ```
 
@@ -1075,7 +1074,7 @@ import 'quote.dart';
 
 ---
 
-## Functions as parameters
+### Functions as parameters
 
 Add a button widget to each instance of the quote card — in this instance an icon button.
 

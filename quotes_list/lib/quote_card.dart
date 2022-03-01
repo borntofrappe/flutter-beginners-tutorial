@@ -10,9 +10,9 @@ class QuoteCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+        margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
         child: Padding(
-          padding: EdgeInsets.all(20.0),
+          padding: EdgeInsets.all(16.0),
           child: Row(
             children: [
               Expanded(
@@ -38,8 +38,8 @@ class QuoteCard extends StatelessWidget {
                 ),
               ),
               IconButton(
+                  icon: Icon(Icons.delete),
                   onPressed: () { delete(); },
-                  icon: Icon(Icons.delete_outline)
               ),
             ],
           )
