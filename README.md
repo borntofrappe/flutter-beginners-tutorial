@@ -2,6 +2,8 @@
 
 > the notes do not consider the installation of Flutter, Dart or again Android Studio, since the instructions are time-sensitive and version-specific
 
+> the repository includes only the scripts which are modified to complete the applications
+
 ## primer.dart
 
 > [dart.dev](https://dartpad.dev) provides a playground for Dart code
@@ -28,7 +30,7 @@ int age = 27;
 bool isLoggedIn = false;
 ```
 
-You can change the value of the variable, but only maintaing the type.
+You can change the value of the variable, but only mantaining the type.
 
 ```dart
 name = 42;
@@ -54,12 +56,6 @@ void main() {
 }
 ```
 
-Behind the scenes Flutter executes the logic of the function calling its name.
-
-```dart
-main();
-```
-
 `void` describes the value returned by the function — in this instance nothing.
 
 Create functions specifying the return type and the function's name.
@@ -82,13 +78,13 @@ void main() {
 
 A variable stores a single piece of data.
 
-A list allows to keep track of multiple values.
+A list keeps track of multiple values.
 
 ```dart
 List numbers = [3, 12, 1];
 ```
 
-Access values by index — starting at 0.
+Access values by index starting at 0.
 
 ```dart
 print(numbers[1]);
@@ -225,7 +221,7 @@ PoliteUser politeUser = PoliteUser('Grace', 28, false);
 politeUser.greet();
 ```
 
-The extended object is equipped with its properties and methods while retaining the corresponding values rfom the parent class.
+The extended object is equipped with its properties and methods while retaining the corresponding values from the parent class.
 
 ## hello_world
 
@@ -263,7 +259,7 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-The class is a widget which structures the application with a with a widget tree.
+The class is a widget which structures the application with a widget tree.
 
 To get started remove all the code but the logic starting the application.
 
@@ -304,7 +300,7 @@ home: Scaffold(
 )
 ```
 
-`AppBar` adsd a bar at the top of the screen. The widget accepts a title property to describe a specific string. Notice that the title is included with yet another widget — `Text`.
+`AppBar` adds a bar at the top of the screen. The widget accepts a title property to describe a specific string. Notice that the title is included with yet another widget — `Text`.
 
 The tree is built in this fashion nesting properties and values.
 
@@ -511,7 +507,7 @@ child: Icon(
 ),
 ```
 
-Add button with a button widget. The material API offers different styles, for instance a filled button with a shadow in `ElevatedButton`.
+Add a button with a button widget. The material API offers different styles, for instance a filled button with a shadow in `ElevatedButton`.
 
 ```dart
 ElevatedButton(
@@ -520,7 +516,7 @@ ElevatedButton(
 ),
 ```
 
-A button without solid background with `TextButton`.
+A button without a solid background with `TextButton`.
 
 ```dart
 TextButton(
@@ -539,7 +535,7 @@ onPressed: () {
 
 In this instance the message is logged in the `Run` console.
 
-To add an icon append the `.icon` keyword to the widget. Refer to the specific icon in the `icon` field and an icon widget.
+For the icon append the `.icon` keyword to the widget. Refer to the specific icon in the `icon` field and an icon widget.
 
 ```dart
 TextButton.icon(
@@ -595,7 +591,7 @@ For spacing the padding and margin properties rely on an inset object.
 padding: EdgeInsets.all(20.0),
 ```
 
-`EdgeInsets` allows to change the spacing on all sides, but also the top/bottom, left/right sections or again the four sides individually — left, top, right, bottom.
+`EdgeInsets` changes the spacing on all sides, but also the top/bottom, left/right sections or again the four sides individually — left, top, right, bottom.
 
 ```dart
 padding: EdgeInsets.symmetric(vertical: 20.0),
@@ -763,7 +759,7 @@ class _HomeState extends State<Home> {
 
 There are two classes since the idea is to link a state object —` _HomeState` — to a widget — `Home`.
 
-Define the variable at the top of te class extending the state.
+Define the variable at the top of the class extending the state.
 
 ```dart
 class _HomeState extends State<Home> {
@@ -791,7 +787,7 @@ onPressed: () {
 }
 ```
 
-Through `setState` Flutter knows to re-build the widget tree and update the relevant section.
+Through `setState` Flutter knows to rebuild the widget tree and update the relevant section.
 
 ## dynamic_quotes
 
@@ -888,7 +884,7 @@ quotes.map((quote) => Text(quote)).toList()
 
 ## Custom classes
 
-Instead of adding a quote as-is create a separate dart script to encapsulate the widget and its logic — `quote.dart`.
+Instead of adding a quote as-is, create a separate dart script to encapsulate the widget and its logic — `quote.dart`.
 
 ```dart
 class Quote {
@@ -908,7 +904,7 @@ import 'quote.dart';
 With this starting point you'd instantiate a new quote passing the text and author in order.
 
 ```dart
-Quote quote = Quote('Third time is the charm', 'me')
+Quote quote = Quote('Third time\'s the charm', 'me')
 ```
 
 As a matter of preference, however, the course introduces _named parameters_.
@@ -935,7 +931,7 @@ Quote({ this.text, this.author });
 Pass the text and author specifying the value after the corresponding keyword. In this instance the order of the arguments doesn't matter.
 
 ```dart
-Quote quote = Quote(text: 'Third time is the charm', author: 'me')
+Quote quote = Quote(text: 'Third time\'s the charm', author: 'me')
 ```
 
 Update `quotes` to define a list of quote objects instead of stings.
@@ -955,7 +951,7 @@ Text('${quote.text} - ${quote.author}')
 
 ## Cards
 
-Instead of adding the quotes in a text widget the idea is to create a more complex widget, a card with displaying the information in a column.
+Instead of adding the quotes in a text widget the idea is to create a more complex widget, a card displaying the information in a column.
 
 Create a separate function to return the widget tree.
 
@@ -1035,7 +1031,7 @@ class QuoteCard extends StatelessWidget {
 );
 ```
 
-As a stateless widget, however you need to describe the input value with the `final` keyword. This is data which doesn't change.
+As a stateless widget, however, you need to describe the input value with the `final` keyword. This is data which doesn't change.
 
 ```diff
 Quote quote;
@@ -1050,7 +1046,7 @@ Widget quoteTemplate(Quote quote) {
 }
 ```
 
-Ultimately it possible to directly return the instance in the mapping function.
+Ultimately it is possible to directly return the instance in the mapping function.
 
 ```diff
 -quoteTempalte(quote))
@@ -1066,7 +1062,7 @@ The `new` keyword is also optional.
 
 ---
 
-To improve the structure of the code extract the class in its own file and import the widget at the top of the script.
+To improve the structure of the code, extract the class in its own file and import the widget at the top of the script.
 
 ```dart
 import QuoteCard from 'quote_card.dart';
@@ -1348,7 +1344,7 @@ Future.delayed(Duration(seconds: 3), () {
 });
 ```
 
-The `Duration` global allows to specify a duration with a specific time.
+The `Duration` global specifies a duration with a specific time.
 
 In the snippet the print statement is run after 3 seconds. In those seconds, however, the application continues.
 
@@ -1464,7 +1460,7 @@ print(data['title']); // delectus aut autem
 
 ### Get world time
 
-The [world time API](http://worldtimeapi.org) allows to retrieve the time for specific locations.
+The [world time API](http://worldtimeapi.org) provides the time for specific time zones.
 
 ```text
 http://worldtimeapi.org/api/timezone/Europe/Rome
@@ -1632,7 +1628,9 @@ With this setup:
   await instance.getTime()
   ```
 
-  `await` allows to wait for the completion of the async function. You need to execute the instruction in an asynchronous function.
+  `await` pauses the execution until the async function has resolved. 
+  
+  Note that `await` works only in an async function itself.
 
 In the loading screen include the instruction in a dedicated function of the stateful widget.
 
@@ -1659,7 +1657,7 @@ await worldTime.getTime();
 // Error: This expression has type 'void' and can't be used
 ```
 
-Update the definition of the function to decribe the future included in its body.
+Update the definition of the function to describe the future included in its body.
 
 ```diff
 void getTime() async {}
@@ -1782,7 +1780,7 @@ Import the value in the script creating the `WorldTime` class.
 import 'package:intl/intl.dart';
 ```
 
-Save the time not as a string but thruogh a specific sequence to retrieve the hour and minutes
+Save the time not as a string but through a specific sequence to retrieve the hour and minutes
 
 ```dart
 time = DateFormat.jm().format(now); // 1:20pm
@@ -1889,7 +1887,7 @@ child Container(
 
 ### Locations
 
-In the third and final widget, `location.dart`, the idea is to show a list of locations and allow to change the time displayed in the homepage.
+In the third and final widget, `location.dart`, the idea is to show a list of locations to change the time displayed in the homepage.
 
 Define a list of world time instances for a few options.
 
@@ -1950,7 +1948,7 @@ onTap: () {
 }
 ```
 
-Define `updateTime` to consider te world time instance and set its time.
+Define `updateTime` to consider the world time instance and set its time.
 
 ```dart
 void updateTime(index) async {
@@ -1994,7 +1992,7 @@ setState(() {
 });
 ```
 
-The `build` function is triggered and the widget tree is re-built. Since the build function uses the value from the arguments field. hover, the value is not kept.
+The `build` function is triggered and the widget tree is rebuilt. Since the build function uses the value from the arguments field. hover, the value is not kept.
 
 ```dart
 data = ModalRoute.of(context).settings.arguments;
