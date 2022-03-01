@@ -670,8 +670,6 @@ Expanded(
 
 ## id_card
 
-> ! the script relies on a static image in the `assets` folder
-
 Create a dummy app to display static values in an arbitrary widget tree.
 
 Past the `AppBar` widget the `body` property includes the following widget tree.
@@ -723,6 +721,13 @@ In terms of new widgets:
   SizedBox(width: 8.0),
   ```
 
+Be sure to update `pubspec.yaml` to make the local image available.
+
+```yaml
+flutter
+  assets:
+    - assets/
+```
 ## id_card_state
 
 > ! the script relies on a static image in the `assets` folder
