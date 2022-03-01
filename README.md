@@ -225,23 +225,23 @@ The extended object is equipped with its properties and methods while retaining 
 
 ## hello_world
 
-> ! the script relies on a font file in the `fonts` folder and a static image in the `assets` folder
-
 ### Widgets
 
 Flutter is centered on the notion of widgets.
 
-A trivial example comes in the form of an application with a root widget nesting two widget describing an app bar and a container. The app bar might then nest a text widget, while the container might include an image widget.
+A trivial example comes in the form of an application with a root widget nesting two widget for an app bar and a container. The app bar might then nest a text widget, while the container might include an image widget.
 
 Each widget has its own set of properties to customize its appearance and logic. For instance, `textAlign` modifies the alignment of text, `elevation` updates the vertical priority of a button.
 
 Widgets are implemented with classes in the Dart programming language.
 
-### Android Studio
+### Starter project
 
-> the section assumes a new project is set up with Android Studio, the Flutter plugin and a new device with Android Pie
+Create a project in one of two ways:
 
-Highlight the project structure with the 'Project' tab.
+- with Android Studio and the Flutter plugin
+
+- with Visual Studio Code and the Flutter and Dart extensions
 
 The project houses the `dart` script responsible for the application in the `lib` folder.
 
@@ -265,9 +265,9 @@ To get started remove all the code but the logic starting the application.
 
 ```dart
 void main() {
-    runApp(
-        /* ... */
-    );
+  runApp(
+      // ...
+  );
 }
 ```
 
@@ -295,7 +295,7 @@ With a scaffold widget describe the layout of the application.
 ```dart
 home: Scaffold(
     appBar: AppBar(
-        title: Text('HW'),
+        title: Text('Hello World'),
     ),
 )
 ```
@@ -306,7 +306,7 @@ The tree is built in this fashion nesting properties and values.
 
 ```dart
 appBar: AppBar(
-    title: Text('Hello world app'),
+    title: Text('Hello World'),
     centerTitle: true,
 ),
 ```
@@ -315,14 +315,14 @@ Beside the bar add text in the application with the `body` property.
 
 ```dart
 appBar: AppBar(),
-body: Text('Hello world')
+body: Text('It works!')
 ```
 
 Use the `Center` widget to center the text vertically and horizontally.
 
 ```dart
 body: Center(
-    child: Text('Hello world'),
+    child: Text(),
 )
 ```
 
@@ -340,7 +340,7 @@ floatingActionButton: FloatingActionButton(
 
 The button requires a `onPressed` field — in this instance an empty anonymous function.
 
-The [flutter API](https://api.flutter.dev/flutter) highlights all properties and supported values.
+Explore the [flutter API](https://api.flutter.dev/flutter) for all properties and supported values.
 
 ### Colors and fonts
 
@@ -348,22 +348,22 @@ Change the appearance of the widget with properties such as `backgroundColor`.
 
 ```dart
 appBar: AppBar(
-    backgroundColor: Colors.red,
+    backgroundColor: Colors.green,
 )
 ```
 
 The color is included through the material API, and it is possible to choose from a specific strength.
 
 ```diff
-backgroundColor: Colors.red,
-+backgroundColor: Colors.red[500],
+backgroundColor: Colors.green,
++backgroundColor: Colors.green[500],
 ```
 
 The property is also available for the button widget.
 
 ```dart
 FloatingActionButton(
-    backgroundColor: Colors.red[500],
+    backgroundColor: Colors.green[500],
 )
 ```
 
@@ -371,26 +371,25 @@ For the text widget update the appearance with the `style` field and a `TextStyl
 
 ```dart
 child: Text(
-    'Hello world',
+    'It works!',
     style: TextStyle(
         fontSize: 20.0,
-        fontWeight: FontWeight.bold,
         letterSpacing: 2.0,
         color: Colors.grey[700]
     ),
 )
 ```
 
-To add a custom font create a new repository and add the `.ttf` file.
+To add a custom font create a new repository `fonts` and add the `.ttf` file.
 
 Open `pubspec.yaml` and update the configuration.
 
 ```yaml
 flutter:
   fonts:
-    - family: Karla
+    - family: Hubballi
       fonts:
-        - asset: fonts/Karla.ttf
+        - asset: fonts/Hubballi-Regular.ttf
 ```
 
 ---
@@ -403,11 +402,8 @@ Refer to the font by name in the `TextStyle` widget.
 
 ```dart
 style: TextStyle(
-    fontFamily: 'Karla',
-    fontSize: 20.0,
-    fontWeight: FontWeight.bold,
-    letterSpacing: 2.0,
-    color: Colors.grey[700]
+    fontFamily: 'Hubballi',
+    // ...
 ),
 ```
 
@@ -416,9 +412,10 @@ style: TextStyle(
 At the bottom of the script create a custom widget.
 
 ```dart
-class Home extends StatelessWidget {   @override
+class Home extends StatelessWidget {
+  @override
   Widget build(BuildContext context) {
-  return Scaffold();
+    return Scaffold();
   }
 }
 ```
@@ -430,7 +427,7 @@ In the build function return the widget tree described in the `home` field.
 ```dart
 return Scaffold(
     appBar: AppBar(
-        title: Text('HW'),
+        title: Text('Hello World'),
         // ..
     ),
     // ..
@@ -466,7 +463,7 @@ From a local file use the asset image widget.
 ```dart
 body: Center(
     child: Image(
-        image: AssetImage('assets/image.png'),
+        image: AssetImage('assets/rose.jpeg'),
     ),
 ),
 ```
@@ -476,7 +473,7 @@ Similarly to font files add the folder and the file in the `.yaml` config file.
 ```yaml
 flutter:
   assets:
-    - assets/image.png
+    - assets/rose.jpeg
 ```
 
 Point to the folder to consider all available images.
@@ -529,11 +526,11 @@ With onPressed the widget reacts to a click.
 
 ```dart
 onPressed: () {
-    print('Button clicked')
+    print('Button clicked');
 },
 ```
 
-In this instance the message is logged in the `Run` console.
+In this instance the message is logged in the console — refer to the "Run" tab for Android Studio, the "Debug Console" tab for Visual Studio Code.
 
 For the icon append the `.icon` keyword to the widget. Refer to the specific icon in the `icon` field and an icon widget.
 
@@ -543,7 +540,7 @@ TextButton.icon(
         print('Button clicked');
     },
     icon: Icon(Icons.email),
-    label: Text('Click me'),
+    label: Text('Mail me'),
 ),
 ```
 
@@ -563,11 +560,11 @@ IconButton(
 Use the container widget to wrap around other widgets and add properties like padding and margin. Nest a single widget with the `child` property.
 
 ```dart
-Container(
+body: Container(
     child: Text(
         'Hello world',
         style: TextStyle(
-            fontSize: 32.0,
+            fontSize: 28.0,
         ),
     ),
 ),
@@ -609,7 +606,7 @@ Padding(
 )
 ```
 
-#### Rows
+### Rows
 
 Use the rows widget to display multiple widgets in the same row. In this instance add the widget in a `children` property.
 
@@ -617,7 +614,7 @@ Use the rows widget to display multiple widgets in the same row. In this instanc
 Row(
     children: <Widget>[
         Text(),
-        FlatBUtton(),
+        TextButton.icon(),
         Padding(
             child: Text(),
         ),
@@ -645,16 +642,13 @@ Column(
 
 The main and cross axis are opposite to the row.
 
-#### Expanded
+### Expanded
 
 Use the expanded widget to have a widget expand to the available space.
 
 ```dart
 Expanded(
-    child: ElevatedButton(
-        onPressed: () {},
-        child: Text('Click me')
-    ),
+    child: TextButton.icon(),
 ),
 ```
 
@@ -1231,7 +1225,6 @@ routes: {
 }
 ```
 
-
 The `home` field creates a conflict with `routes`. Remove the first property to rely on the routes instead.
 
 ```diff
@@ -1246,11 +1239,9 @@ initialRoute: '/home',
 routes: {}
 ```
 
-To navigate between routes use the `Navigator` object. 
+To navigate between routes use the `Navigator` object.
 
 Add a button in the home widget.
-
-
 
 At the press of a button, for instance, move to the location screen with the `pushNamed` method.
 
@@ -1272,7 +1263,6 @@ Scaffold(
     body: Text('Location'),
 )
 ```
-
 
 ### Widget lifecycle
 
@@ -1628,8 +1618,8 @@ With this setup:
   await instance.getTime()
   ```
 
-  `await` pauses the execution until the async function has resolved. 
-  
+  `await` pauses the execution until the async function has resolved.
+
   Note that `await` works only in an async function itself.
 
 In the loading screen include the instruction in a dedicated function of the stateful widget.
@@ -1765,7 +1755,7 @@ In the widget tree add the values through several text widgets.
 
 ### Formatting and showing dates
 
-Instead of storing the DateTime object as a string  the idea is to format the instance with the [`intl`](https://pub.dev/packages/intl) package.
+Instead of storing the DateTime object as a string the idea is to format the instance with the [`intl`](https://pub.dev/packages/intl) package.
 
 Similarly to the `http` module add the dependency to `pubspec.yaml`.
 
