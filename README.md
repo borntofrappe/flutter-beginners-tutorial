@@ -728,11 +728,10 @@ flutter
   assets:
     - assets/
 ```
-## id_card_state
 
-> ! the script relies on a static image in the `assets` folder
+## id_card_stateful
 
-Create a dummy app using [id_card](#id_card) as a starting point.
+Create a new project app using [id_card](#id_card) as a starting point.
 
 ### Stateful widgets
 
@@ -756,7 +755,7 @@ class _HomeState extends State<Home> {
 }
 ```
 
-There are two classes since the idea is to link a state object —` _HomeState` — to a widget — `Home`.
+There are two classes since the idea is to link a state object — `_HomeState` — to a widget — `Home`.
 
 Define the variable at the top of the class extending the state.
 
