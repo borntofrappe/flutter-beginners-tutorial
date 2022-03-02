@@ -1546,7 +1546,7 @@ Note that `add` returns a new date object, and does not modify the original inst
 print(now)
 ```
 
-## WorldTime custom class
+### WorldTime custom class
 
 Create a dedicated class to perform the network request and set a specific time.
 
@@ -1704,7 +1704,7 @@ Response response = await get(Uri.parse('http://worldtimeaprg/api/timezone/Europ
 // Failed host lookup: 'worldtimeaprg' (OS Error: No address associated with hostname, errno = 7)
 ```
 
-## Pass route data
+### Pass route data
 
 Instead of displaying the time in the loading screen the idea is to pass the data to the home screen.
 
