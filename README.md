@@ -2,11 +2,9 @@
 
 > the notes do not consider the installation of Flutter, Dart or again Android Studio, since the instructions are time-sensitive and version-specific
 
-> the repository includes only the scripts which are modified to complete the applications
-
 ## primer.dart
 
-> [dart.dev](https://dartpad.dev) provides a playground for Dart code
+> [dartpad.dev](https://dartpad.dev) provides a playground for Dart code
 
 A `.dart` script includes one essential function in `main`.
 
@@ -1134,6 +1132,8 @@ pages
 Initialize the pages with stateful widgets. For instance and `home.dart` create the classes following the example of [dynamic quotes](#dynamicquotes).
 
 ```dart
+import 'package:flutter/material.dart';
+
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -1153,7 +1153,9 @@ class _HomeState extends State<Home> {
 In the script `main.dart` import the pages.
 
 ```dart
+import 'pages/loading.dart';
 import 'pages/home.dart';
+import 'pages/location.dart';
 ```
 
 Use the relative path _or_ the name of the project itself with the `package:` prefix. This is similar to how the main script imports the material library.
