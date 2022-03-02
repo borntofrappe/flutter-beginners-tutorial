@@ -10,40 +10,40 @@ class QuoteCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Text(
-                        quote.text,
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: Colors.grey[600],
-                        ),
-                      ),
-                      SizedBox(height: 6.0),
-                      Text(
-                        quote.author,
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          color: Colors.grey[700],
-                        ),
-                      ),
-                    ]
-                ),
+      margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+      child: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Text(
+                    quote.text,
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  SizedBox(height: 6.0),
+                  Text(
+                    quote.author,
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.grey[700],
+                    ),
+                  ),
+                ]
               ),
-              IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () { delete(); },
-              ),
-            ],
-          )
+            ),
+            IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () { delete(); },
+            ),
+          ],
         )
+      )
     );
   }
 }

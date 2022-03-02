@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MaterialApp(home: Home()));
+  runApp(
+    MaterialApp(
+      home: Home()
+    )
+  );
 }
 
 class Home extends StatelessWidget {
@@ -18,13 +22,17 @@ class Home extends StatelessWidget {
         children: <Widget>[
           Row(
             children: <Widget>[
-              Expanded(flex: 1, child: Text('It works!')),
+              Expanded(
+                flex: 1, 
+                child: Text('It works!')
+              ),
               Expanded(
                 flex: 2,
                 child: TextButton.icon(
-                    icon: Icon(Icons.mail),
-                    label: Text('Mail me'),
-                    onPressed: () {}),
+                  icon: Icon(Icons.mail),
+                  label: Text('Mail me'),
+                  onPressed: () {}
+                ),
               ),
               Padding(
                 padding: EdgeInsets.all(10.0),
@@ -36,7 +44,10 @@ class Home extends StatelessWidget {
           Text(
             'A red rose',
             style: TextStyle(
-                fontSize: 28.0, letterSpacing: 2.0, fontFamily: 'Hubballi'),
+              fontSize: 28.0, 
+              letterSpacing: 2.0, 
+              fontFamily: 'Hubballi'
+            ),
           ),
         ],
       ),

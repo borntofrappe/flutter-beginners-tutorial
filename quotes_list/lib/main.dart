@@ -4,9 +4,9 @@ import 'quote_card.dart';
 
 void main() {
   runApp(
-      MaterialApp(
-          home: QuoteList()
-      )
+    MaterialApp(
+      home: QuoteList()
+    )
   );
 }
 
@@ -33,12 +33,12 @@ class _QuoteListState extends State<QuoteList> {
       ),
       body: Column(
         children: quotes.map((quote) => QuoteCard(
-            quote: quote,
-            delete: () {
-              setState(() {
-                quotes.remove(quote);
-              });
-            }
+          quote: quote,
+          delete: () {
+            setState(() {
+              quotes.remove(quote);
+            });
+          }
         )).toList(),
       ),
     );
