@@ -40,7 +40,7 @@ class Home extends StatelessWidget {
               ),
             ],
           ),
-          Image.asset('assets/rose.jpeg'),
+          Image.asset('assets/rose.jpg'),
           Text(
             'A red rose',
             style: TextStyle(
